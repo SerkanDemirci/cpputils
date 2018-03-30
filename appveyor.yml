@@ -15,8 +15,12 @@ install:
 before_build:
     - cmake -G "Visual Studio 15 2017 Win64" .
 
-build:
-  project: $(APPVEYOR_BUILD_FOLDER)\$(APPVEYOR_PROJECT_NAME).sln
-
+build_script:
+  - mkdir build && cd build
+  - cmake .. -DCMAKE_INSTALL_PREFIX=install
+  - cmake --build . --config %CONFIGURATION% --target install
 test_script:
-  - '%APPVEYOR_BUILD_FOLDER%\%CONFIGURATION%\tests.exe'
+  - ctest -C %CONFIGURATION% --output-on-failure
+  - cd ../Test && bash runtests
+  - cd ../build
+
