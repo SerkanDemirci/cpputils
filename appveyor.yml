@@ -17,10 +17,8 @@ before_build:
 
 build_script:
   - mkdir build && cd build
-  - cmake .. -DCMAKE_INSTALL_PREFIX=install
-  - cmake --build . --config %CONFIGURATION% --target install
+  - cmake .. 
+  - cmake --build . --target install
 test_script:
-  - ctest -C %CONFIGURATION% --output-on-failure
-  - cd ../Test && bash runtests
-  - cd ../build
+	- make test
 
